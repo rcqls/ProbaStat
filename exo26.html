@@ -1,0 +1,729 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Dyndoc Session</title>
+
+<script src="/rsrc/tools/h/jquery-1.11.3/jquery.min.js"></script>
+
+
+
+<link href="/rsrc/tools/uv/solarized.css" media="screen,projection,print" rel="Stylesheet" type="text/css" />
+<script src="/rsrc/tools/stat/statInfAEP/distributions.js"></script>
+<script src="/rsrc/tools/stat/miniR/miniR.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<link rel="stylesheet" href="/rsrc/tools/css/ascidoctor.css">
+<link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<script src="/rsrc/tools/clipboard/clipboard.min.js"></script>
+<style type="text/css" media="screen">
+.demoR:hover {cursor: zoom-in;}
+</style>
+<script type="text/javascript">
+var demoRFigs={};
+</script>
+
+<link rel="stylesheet" type="text/css" href="/rsrc/tools/Semantic-UI-CSS/semantic.min.css"><script src="/rsrc/tools/Semantic-UI-CSS/semantic.min.js"></script>
+
+
+
+
+
+</head>
+<body><div class="ui  container">
+
+<div id="content">
+
+
+<h2> Exercice 26 : Compétence techniciens </h2>
+
+
+<br/><b>Partie I: compétence d'un technicien</b> <br/>
+
+Un service de contrôle d'une entreprise de métallurgie s'intéresse à savoir si un technicien (Alfred) est suffisamment précis au niveau des mesures qu'il effectue sur des minerais de fer. Le technicien sera d'autant plus précis que l'écart entre deux mesures d'un même minerai (sans qu'il le sache) est faible. La précision serait théoriquement mesurée  par la variance d'une infinité d'écarts entre deux mesures. On notera $\sigma^2_A$ (comme Alfred) cette variance.  Le service de contrôle décide qu'un technicien est compétent si ce paramètre d'intérêt est inférieur à $0.1$. <br/> 
+
+ 
+<br/>(1) On commence par soumettre Alfred à $n^A=20$ échantillons de minerai de fer. Le jeu de données est stocké dans le vecteur  $\mathtt{yA}$ dans $\mathtt{R}$. Peut-on montrer au seuil de $5\%$ qu'Alfred est compétent ? (précisez l'hypothèse mathématique faite sur la nature des données)
+
+<pre class="solarized">
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Variable">yA</span>
+ [<span class="Number">1</span>]  <span class="Number">0.14467956</span>  <span class="Number">0.30839102</span>  <span class="Number">0.16507184</span>  <span class="Number">0.08100885</span> <span class="Keyword">-</span><span class="Number">0.15048984</span> <span class="Keyword">-</span><span class="Number">0.02163446</span>
+ [<span class="Number">7</span>] <span class="Keyword">-</span><span class="Number">0.25558794</span>  <span class="Number">0.09871536</span>  <span class="Number">0.59275135</span> <span class="Keyword">-</span><span class="Number">0.22962500</span> <span class="Keyword">-</span><span class="Number">0.21676732</span> <span class="Keyword">-</span><span class="Number">0.09707208</span>
+[<span class="Number">13</span>]  <span class="Number">0.17050529</span> <span class="Keyword">-</span><span class="Number">0.05732366</span>  <span class="Number">0.65337514</span>  <span class="Number">0.17802469</span>  <span class="Number">0.29278735</span> <span class="Keyword">-</span><span class="Number">0.16514972</span>
+[<span class="Number">19</span>] <span class="Keyword">-</span><span class="Number">0.30080221</span>  <span class="Number">0.32129752</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> var(<span class="Variable">yA</span>)
+[<span class="Number">1</span>] <span class="Number">0.07325571</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> sd(<span class="Variable">yA</span>)
+[<span class="Number">1</span>] <span class="Number">0.2706579</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Comment"><span class="Comment">#</span> deltaEst.H0 &lt;- (instruction R à fournir dans la rédaction)</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Variable">deltaEst.H0</span>
+[<span class="Number">1</span>] <span class="Number">13.91858</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> qchisq(c(<span class="Number">0.01</span>,<span class="Number">0.025</span>,<span class="Number">0.05</span>,<span class="Number">0.1</span>,<span class="Number">0.9</span>,<span class="Number">0.95</span>,<span class="Number">0.975</span>,<span class="Number">0.99</span>),<span class="Number">19</span>)
+[<span class="Number">1</span>]  <span class="Number">7.632730</span>  <span class="Number">8.906516</span> <span class="Number">10.117013</span> <span class="Number">11.650910</span> <span class="Number">27.203571</span> <span class="Number">30.143527</span> <span class="Number">32.852327</span>
+[<span class="Number">8</span>] <span class="Number">36.190869</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> pchisq(<span class="Variable">deltaEst.H0</span>,<span class="Number">19</span>)
+[<span class="Number">1</span>] <span class="Number">0.2115835</span>
+
+</pre>
+
+<button id="ok_varAn20Techni_answer" class="ui icon mini icon green button"><i class="check icon"></i></button>
+
+<div class="ok_varAn20Techni">
+<div class="ui icon blue message"><i class="life ring icon"></i><div class="content"><div class="header">Réponse</div>
+
+<br/><b>Hypothèses de test</b> : \(\mathbf{H}_0:\) \(\sigma^2_{A}=0.1\) vs \(\mathbf{H}_1:\) \(\sigma^2_{A}<0.1\)
+<br/><b>Statistique de test sous \(\mathbf{H}_0\)</b> :
+  \[
+   \widehat{  \delta_{\sigma^2_{A},0.1} }\left({\mathbf{ { Y^{A} } }}\right) = {\displaystyle (20-1)\frac{\widehat{  \sigma^2_{A} }\left({\mathbf{ { Y^{A} } }}\right)}{0.1}} \leadsto \chi^2(20-1)
+  \]
+
+<br/><b>Règle de décision</b> : Accepter \(\mathbf{H}_1\) si
+  p-valeur (gauche) < \(5\%\)
+<br/><b>Conclusion</b> :
+puisqu'au vu des données,
+  $$
+p-valeur\overset{\mathtt{R}}{=}\mathtt{pchisq((20-1)*var(yA)/0.1,19)} \simeq 21.16\%\nless5\%,
+$$
+on NE peut PAS (plutôt) penser (avec un risque de \(5\%\)) que Alfred est compétent.
+</div></div></div>
+
+
+
+<br/>(2) On complète le jeu de données précédent en soumettant le technicien à 30 <b>nouveaux</b> échantillons. Le jeu de données est toujours stocké dans le vecteur  $\mathtt{yA}$. Peut-on maintenant montrer au seuil de $5\%$ que le technicien est compétent ?
+
+
+<pre class="solarized">
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Variable">yA</span>
+ [<span class="Number">1</span>]  <span class="Number">0.144679564</span>  <span class="Number">0.308391020</span>  <span class="Number">0.165071844</span>  <span class="Number">0.081008851</span> <span class="Keyword">-</span><span class="Number">0.150489836</span>
+ [<span class="Number">6</span>] <span class="Keyword">-</span><span class="Number">0.021634458</span> <span class="Keyword">-</span><span class="Number">0.255587943</span>  <span class="Number">0.098715356</span>  <span class="Number">0.592751352</span> <span class="Keyword">-</span><span class="Number">0.229624997</span>
+<span class="Keyword">...</span>
+[<span class="Number">41</span>]  <span class="Number">0.262084534</span> <span class="Keyword">-</span><span class="Number">0.215753300</span>  <span class="Number">0.173626815</span> <span class="Keyword">-</span><span class="Number">0.200160681</span> <span class="Keyword">-</span><span class="Number">0.255138748</span>
+[<span class="Number">46</span>]  <span class="Number">0.125329351</span> <span class="Keyword">-</span><span class="Number">0.326049545</span>  <span class="Number">0.207517750</span>  <span class="Number">0.070438920</span> <span class="Keyword">-</span><span class="Number">0.303221493</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> var(<span class="Variable">yA</span>)
+[<span class="Number">1</span>] <span class="Number">0.06362229</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> sd(<span class="Variable">yA</span>)
+[<span class="Number">1</span>] <span class="Number">0.2522346</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Comment"><span class="Comment">#</span> deltaEst.H0 &lt;- (instruction R à fournir dans la rédaction)</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Variable">deltaEst.H0</span>
+[<span class="Number">1</span>] <span class="Keyword">-</span><span class="Number">2.762438</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> pnorm(<span class="Variable">deltaEst.H0</span>)
+[<span class="Number">1</span>] <span class="Number">0.002868572</span>
+
+</pre>
+
+<button id="ok_varAn50Techni_answer" class="ui icon mini icon green button"><i class="check icon"></i></button>
+
+<div class="ok_varAn50Techni">
+<div class="ui icon blue message"><i class="life ring icon"></i><div class="content"><div class="header">Réponse</div>
+
+<br/><b>Hypothèses de test</b> : \(\mathbf{H}_0:\) \(\sigma^2_{A}=0.1\) vs \(\mathbf{H}_1:\) \(\sigma^2_{A}<0.1\)
+<br/><b>Statistique de test sous \(\mathbf{H}_0\)</b> :
+  \[
+   \widehat{  \delta_{\sigma^2_{A},0.1} }\left({\mathbf{ { Y^{A} } }}\right) = {\displaystyle \frac{\widehat{  \sigma^2_{A} }\left({\mathbf{ { Y^{A} } }}\right)-0.1}{
+\widehat{  \sigma_{\widehat{ \sigma^2_{A}}} }\left({\mathbf{ { Y^{A} } }}\right)
+}} \underset{Approx.}{\leadsto} \mathcal{N}(0,1)
+  \]
+
+<br/><b>Règle de décision</b> : Accepter \(\mathbf{H}_1\) si
+  p-valeur (gauche) < \(5\%\)
+<br/><b>Conclusion</b> :
+puisqu'au vu des données,
+  $$
+p-valeur\overset{\mathtt{R}}{=}\mathtt{pnorm((var(yA)-0.1)/seVar(yA))} \simeq 0.29\% < 5\%,
+$$
+on peut (plutôt) penser (avec un risque de \(5\%\)) que Alfred est compétent.
+</div></div></div>
+
+
+
+<br/><b>Partie II : comparaison de deux techniciens </b> <br/>
+
+<br/>(1) On s'intéresse à un second technicien (Bernard) dont on cherche à montrer qu'il est compétent. Bernard a été soumis à $n^B=20$ échantillons de minerai; les données relatives à ses écarts de mesure sont stockées en $\mathtt{R}$ dans le vecteur  $\mathtt{yB}$. Peut-on montrer qu'il est compétent au seuil de $5\%$ ?
+
+
+
+<pre class="solarized">
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Variable">yB</span>
+ [<span class="Number">1</span>]  <span class="Number">0.024830162</span>  <span class="Number">0.093791329</span>  <span class="Number">0.145188006</span> <span class="Keyword">-</span><span class="Number">0.049699994</span> <span class="Keyword">-</span><span class="Number">0.153214255</span>
+ [<span class="Number">6</span>]  <span class="Number">0.120875740</span> <span class="Keyword">-</span><span class="Number">0.112933043</span> <span class="Keyword">-</span><span class="Number">0.345291716</span> <span class="Keyword">-</span><span class="Number">0.007106278</span>  <span class="Number">0.122016115</span>
+[<span class="Number">11</span>] <span class="Keyword">-</span><span class="Number">0.191976511</span> <span class="Keyword">-</span><span class="Number">0.368424436</span>  <span class="Number">0.188209329</span> <span class="Keyword">-</span><span class="Number">0.119061948</span> <span class="Keyword">-</span><span class="Number">0.202052804</span>
+[<span class="Number">16</span>]  <span class="Number">0.249518927</span> <span class="Keyword">-</span><span class="Number">0.301396393</span>  <span class="Number">0.112303313</span>  <span class="Number">0.216480111</span>  <span class="Number">0.239335084</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> var(<span class="Variable">yB</span>)
+[<span class="Number">1</span>] <span class="Number">0.03921612</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Comment"><span class="Comment">#</span> deltaEst.H0 &lt;- (instruction R à fournir dans la rédaction)</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Variable">deltaEst.H0</span>
+[<span class="Number">1</span>] <span class="Number">7.451062</span>
+
+</pre>
+
+<button id="ok_varBn20Techni_answer" class="ui icon mini icon green button"><i class="check icon"></i></button>
+
+<div class="ok_varBn20Techni">
+<div class="ui icon blue message"><i class="life ring icon"></i><div class="content"><div class="header">Réponse</div>
+
+<br/><b>Hypothèses de test</b> : \(\mathbf{H}_0:\) \(\sigma^2_{B}=0.1\) vs \(\mathbf{H}_1:\) \(\sigma^2_{B}<0.1\)
+<br/><b>Statistique de test sous \(\mathbf{H}_0\)</b> :
+  \[
+   \widehat{  \delta_{\sigma^2_{B},0.1} }\left({\mathbf{ { Y^{B} } }}\right) = {\displaystyle (20-1)\frac{\widehat{  \sigma^2_{B} }\left({\mathbf{ { Y^{B} } }}\right)}{0.1}} \leadsto \chi^2(20-1)
+  \]
+
+<br/><b>Règle de décision</b> : Accepter \(\mathbf{H}_1\) si
+  \(\widehat{  \delta_{\sigma^2_{B},0.1} }\left({\mathbf{ { y^{B} } }}\right) < \delta^-_{lim,5\%}\)
+<br/><b>Conclusion</b> :
+puisqu'au vu des données,
+  $$\begin{aligned}
+\widehat{  \delta_{\sigma^2_{B},0.1} }\left({\mathbf{ { y^{B} } }}\right) &\overset{\mathtt{R}}{=} \mathtt{(20-1)*var(yB)/0.1}\simeq 7.451062\\& <   \delta^-_{lim,5\%} \overset{\mathtt{R}}{=} \mathtt{qchisq(.05,19)}\simeq10.11701
+\end{aligned}$$
+  
+on peut (plutôt) penser (avec un risque de \(5\%\)) que Bernard est compétent.
+</div></div></div>
+
+
+
+<br/>(2) Peut-on montrer (toujours au seuil de $5\%$) qu'Alfred est moins précis que Bernard ?
+
+
+
+<pre class="solarized">
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Comment"><span class="Comment">#</span> deltaEst.H0 &lt;- (instruction R à fournir dans la rédaction)</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Variable">deltaEst.H0</span>
+[<span class="Number">1</span>] <span class="Number">1.622351</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> qf(c(<span class="Number">0.01</span>,<span class="Number">0.025</span>,<span class="Number">0.05</span>,<span class="Number">0.1</span>,<span class="Number">0.9</span>,<span class="Number">0.95</span>,<span class="Number">0.975</span>,<span class="Number">0.99</span>),<span class="Number">49</span>,<span class="Number">19</span>)
+[<span class="Number">1</span>] <span class="Number">0.4350385</span> <span class="Number">0.4954826</span> <span class="Number">0.5546675</span> <span class="Number">0.6325832</span> <span class="Number">1.7129041</span> <span class="Number">2.0008646</span> <span class="Number">2.2983466</span>
+[<span class="Number">8</span>] <span class="Number">2.7135032</span>
+
+</pre>
+
+<button id="ok_rvarABnA50nB20Techni_answer" class="ui icon mini icon green button"><i class="check icon"></i></button>
+
+<div class="ok_rvarABnA50nB20Techni">
+<div class="ui icon blue message"><i class="life ring icon"></i><div class="content"><div class="header">Réponse</div>
+<br/><b>Préliminaire</b> : <ul>
+<li> <i>paramètre d'intérêt</i> : \(r_{\sigma^2}=\displaystyle \frac{\sigma^2_{A}}{\sigma^2_{B}}\)
+<li> <i>sa future estimation</i> : \(\widehat{  r_{\sigma^2} }\left({\mathbf{ { Y^{A},Y^{B} } }}\right)=\widehat{  \sigma^2_{A} }\left({\mathbf{ { Y^{A} } }}\right)/\widehat{  \sigma^2_{B} }\left({\mathbf{ { Y^{B} } }}\right)\)
+</ul>
+<br/><b>Hypothèses de test</b> : \(\mathbf{H}_0:\) \(r_{\sigma^2}=1\) vs \(\mathbf{H}_1:\) \(r_{\sigma^2}>1\)
+<br/><b>Statistique de test sous \(\mathbf{H}_0\)</b> :
+  \[
+   \widehat{  \delta_{r_{\sigma^2},1} }\left({\mathbf{ { Y^{A},Y^{B} } }}\right) = {\displaystyle \frac{\widehat{  r_{\sigma^2} }\left({\mathbf{ { Y^{A},Y^{B} } }}\right)}{1}} \leadsto \mathcal{F}(50-1,20-1) 
+  \]
+
+<br/><b>Règle de décision</b> : Accepter \(\mathbf{H}_1\) si
+  \(\widehat{  \delta_{r_{\sigma^2},1} }\left({\mathbf{ { y^{A},y^{B} } }}\right) > \delta^+_{lim,5\%}\)
+<br/><b>Conclusion</b> :
+puisqu'au vu des données,
+  $$\begin{aligned}
+\widehat{  \delta_{r_{\sigma^2},1} }\left({\mathbf{ { y^{A},y^{B} } }}\right) &\overset{\mathtt{R}}{=} \mathtt{(var(yA)/var(yB))/1}\simeq 1.622351\\&\ngtr  \delta^+_{lim,5\%} \overset{\mathtt{R}}{=} \mathtt{qf(1-.05,49,19)}\simeq2.000865
+\end{aligned}$$
+  
+on NE peut PAS (plutôt) penser (avec un risque de \(5\%\)) que Alfred est moins précis que Bernard.
+</div></div></div>
+
+
+
+
+<br/>(3) Alfred et Bernard critiquent le précédent résultat et proposent de refaire le même test à taille d'échantillon identique (i.e. $n=20$). Que peut-on dire à la vue de l'instruction ci-dessous ?
+
+
+<pre class="solarized">
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Comment"><span class="Comment">#</span> deltaEst.H0 &lt;- (instruction R à fournir dans la rédaction)</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> pf(<span class="Variable">deltaEst.H0</span>,<span class="Number">19</span>,<span class="Number">19</span>)
+[<span class="Number">1</span>] <span class="Number">0.9088193</span>
+
+</pre>
+
+<button id="ok_rvarABnA20nb20Techni_answer" class="ui icon mini icon green button"><i class="check icon"></i></button>
+
+<div class="ok_rvarABnA20nb20Techni">
+<div class="ui icon blue message"><i class="life ring icon"></i><div class="content"><div class="header">Réponse</div>
+<br/><b>Préliminaire</b> : <ul>
+<li> <i>paramètre d'intérêt</i> : \(r_{\sigma^2}=\displaystyle \frac{\sigma^2_{A}}{\sigma^2_{B}}\)
+<li> <i>sa future estimation</i> : \(\widehat{  r_{\sigma^2} }\left({\mathbf{ { Y^{A},Y^{B} } }}\right)=\widehat{  \sigma^2_{A} }\left({\mathbf{ { Y^{A} } }}\right)/\widehat{  \sigma^2_{B} }\left({\mathbf{ { Y^{B} } }}\right)\)
+</ul>
+<br/><b>Hypothèses de test</b> : \(\mathbf{H}_0:\) \(r_{\sigma^2}=1\) vs \(\mathbf{H}_1:\) \(r_{\sigma^2}>1\)
+<br/><b>Statistique de test sous \(\mathbf{H}_0\)</b> :
+  \[
+   \widehat{  \delta_{r_{\sigma^2},1} }\left({\mathbf{ { Y^{A},Y^{B} } }}\right) = {\displaystyle \frac{\widehat{  r_{\sigma^2} }\left({\mathbf{ { Y^{A},Y^{B} } }}\right)}{1}} \leadsto \mathcal{F}(20-1,20-1) 
+  \]
+
+<br/><b>Règle de décision</b> : Accepter \(\mathbf{H}_1\) si
+  p-valeur (droite) < \(5\%\)
+<br/><b>Conclusion</b> :
+puisqu'au vu des données,
+  $$
+p-valeur\overset{\mathtt{R}}{=}\mathtt{1-pf((var(yA)/var(yB))/1,19,19)} \simeq 9.12\%\nless5\%,
+$$
+on NE peut PAS (plutôt) penser (avec un risque de \(5\%\)) que Alfred est moins précis que Bernard.
+</div></div></div>
+
+
+
+<br/>(4) On complète alors le jeu de données du second technicien, en soumettant Bernard à 40 <b>nouveaux</b> échantillons (les données sont toujours stockées en $\mathtt{R}$ dans le vecteur  $\mathtt{yB}$). Peut-on cette fois-ci montrer qu'Alfred est moins précis que Bernard ?
+
+
+<pre class="solarized">
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Variable">yB</span>
+ [<span class="Number">1</span>]  <span class="Number">0.024830162</span>  <span class="Number">0.093791329</span>  <span class="Number">0.145188006</span> <span class="Keyword">-</span><span class="Number">0.049699994</span> <span class="Keyword">-</span><span class="Number">0.153214255</span>
+ [<span class="Number">6</span>]  <span class="Number">0.120875740</span> <span class="Keyword">-</span><span class="Number">0.112933043</span> <span class="Keyword">-</span><span class="Number">0.345291716</span> <span class="Keyword">-</span><span class="Number">0.007106278</span>  <span class="Number">0.122016115</span>
+<span class="Keyword">...</span>
+[<span class="Number">51</span>]  <span class="Number">0.296275243</span> <span class="Keyword">-</span><span class="Number">0.162141374</span>  <span class="Number">0.060792874</span>  <span class="Number">0.090976915</span>  <span class="Number">0.119856496</span>
+[<span class="Number">56</span>]  <span class="Number">0.310565975</span> <span class="Keyword">-</span><span class="Number">0.146785494</span>  <span class="Number">0.061968269</span> <span class="Keyword">-</span><span class="Number">0.182127778</span> <span class="Keyword">-</span><span class="Number">0.187890277</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> var(<span class="Variable">yB</span>)
+[<span class="Number">1</span>] <span class="Number">0.03442929</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Comment"><span class="Comment">#</span> deltaEst.H0 &lt;- (instruction R à fournir dans la rédaction)</span>
+<span class="Variable">R</span><span class="Keyword">&gt;</span> <span class="Variable">deltaEst.H0</span>
+[<span class="Number">1</span>] <span class="Number">2.037317</span>
+
+</pre>
+
+<button id="ok_dvarABnA50nB60Techni_answer" class="ui icon mini icon green button"><i class="check icon"></i></button>
+
+<div class="ok_dvarABnA50nB60Techni">
+<div class="ui icon blue message"><i class="life ring icon"></i><div class="content"><div class="header">Réponse</div>
+<br/><b>Préliminaire</b> : puisque \(\mathtt{(var(yA)-var(yB)-0)}\simeq0.029193\) est du même signe (i.e. positif) que \(\mathtt{deltaEst.H0}\) , on a :
+      <ul>
+<li> <i>paramètre d'intérêt</i> : \(d_{\sigma^2}=\sigma^2_{A}-\sigma^2_{B}\)
+<li> <i>sa future estimation</i> : \(\widehat{  d_{\sigma^2} }\left({\mathbf{ { Y^{A},Y^{B} } }}\right)=\widehat{  \sigma^2_{A} }\left({\mathbf{ { Y^{A} } }}\right)-\widehat{  \sigma^2_{B} }\left({\mathbf{ { Y^{B} } }}\right)\)
+</ul>
+<br/><b>Hypothèses de test</b> : \(\mathbf{H}_0:\) \(d_{\sigma^2}=0\) vs \(\mathbf{H}_1:\) \(d_{\sigma^2}>0\)
+<br/><b>Statistique de test sous \(\mathbf{H}_0\)</b> :
+  \[
+   \widehat{  \delta_{d_{\sigma^2},0} }\left({\mathbf{ { Y^{A},Y^{B} } }}\right) = {\displaystyle \frac{\widehat{  d_{\sigma^2} }\left({\mathbf{ { Y^{A},Y^{B} } }}\right)-0}{
+\widehat{  \sigma_{\widehat{ d_{\sigma^2}}} }\left({\mathbf{ { Y^{A},Y^{B} } }}\right)
+}} \underset{Approx.}{\leadsto} \mathcal{N}(0,1)
+  \]
+
+<br/><b>Règle de décision</b> : Accepter \(\mathbf{H}_1\) si
+  \(\widehat{  \delta_{d_{\sigma^2},0} }\left({\mathbf{ { y^{A},y^{B} } }}\right) > \delta^+_{lim,5\%}\)
+<br/><b>Conclusion</b> :
+puisqu'au vu des données,
+  $$\begin{aligned}
+\widehat{  \delta_{d_{\sigma^2},0} }\left({\mathbf{ { y^{A},y^{B} } }}\right) &\overset{\mathtt{R}}{=} \mathtt{(var(yA)-var(yB)-0)/seDVar(yA,yB)}\simeq 2.037317\\& >   \delta^+_{lim,5\%} \overset{\mathtt{R}}{=} \mathtt{qnorm(1-.05)}\simeq1.644854
+\end{aligned}$$
+  
+on peut (plutôt) penser (avec un risque de \(5\%\)) que Alfred est moins précis que Bernard.
+</div></div></div>
+
+
+</div>
+
+</div>
+
+<script type="text/javascript">
+if (typeof clipboardDemo == 'undefined') {
+	clipboardDemo = new Clipboard('.clipboard');
+	stateClip=false; //global variable
+}
+stateClip=false; //global variable
+$(".clipboard").click(function(e) {stateClip=true;});
+$(".demoR").click(function() {
+  if(stateClip) {
+    stateClip=false;
+  } else {
+    var state=$( this ).attr("state");
+    var link_id=$( this ).attr("link_id");
+    if(state=="on") {
+      $("#code-"+link_id).hide();
+      $("#session-"+link_id).show();
+      $( this ).attr("state","off");
+    } else {
+      $("#code-"+link_id).show();
+      $("#session-"+link_id).hide();
+      $( this ).attr("state","on");
+    }
+  }
+});
+function prev_DemoRFigs(fig) {
+  var curfig=demoRFigs[fig]['current'];
+  var prevfig=demoRFigs[fig]['prev'][curfig];
+  demoRFigs[fig]['figs'].forEach(function(e) {
+    if(e == prevfig) {
+      $("#img-"+fig+"-"+e).show();$("#code-"+fig+"-"+e).show();
+    } else {
+      $("#img-"+fig+"-"+e).hide();$("#code-"+fig+"-"+e).hide();
+    }
+  });
+  demoRFigs[fig]['current']=prevfig;
+}
+function next_DemoRFigs(fig) {
+  var curfig=demoRFigs[fig]['current'];
+  var nextfig=demoRFigs[fig]['next'][curfig];
+  demoRFigs[fig]['figs'].forEach(function(e) {
+    if(e == nextfig) {
+      $("#img-"+fig+"-"+e).show();$("#code-"+fig+"-"+e).show();
+    } else {
+      $("#img-"+fig+"-"+e).hide();$("#code-"+fig+"-"+e).hide();
+    }
+  });
+  demoRFigs[fig]['current']=nextfig;
+}
+//init
+$(".demoRSession").hide();
+$('.ui.answer.accordion').accordion();
+$('.ui.checkbox')
+  .checkbox()
+;
+$('.quizz.checkbox').change(function () {
+	var quizz = $(this).attr("quizz");
+  update_checkbox_answer($(this));
+	update_quizz_score(quizz);
+});
+
+function bonjour_quizz_checkbox() {
+  var tag; 
+  $('.quizz.checkbox').each(function() {
+      tag = ($(this).attr("tag") % 2 == 1) ? atob("eWVz") : atob("bm8=");
+      $('<input>').attr({
+        type: 'hidden',
+        class: 'quizz_answer',
+        mode: 'checkbox',
+        quizz: $(this).attr("quizz"),
+        question: $(this).attr("question"),
+        id: 'qa-'+$(this).attr("quizz")+'-'+$(this).attr("question")+"-"+$(this).attr("choice"),
+        expected: tag,
+        answer: '',
+        score: 0
+      }).insertAfter("#quizz-result-"+$(this).attr("quizz"));
+      // if($('#qs-'+$(this).attr("quizz")+'-'+$(this).attr("question") ).length == 0) {
+      //   $('<input>').attr({
+      //     type: 'hidden',
+      //     class: 'quizz_score',
+      //     mode: 'checkbox',
+      //     quizz: $(this).attr("quizz"),
+      //     question: $(this).attr("question"),
+      //     id: 'qs-'+$(this).attr("quizz")+'-'+$(this).attr("question"),
+      //     score: 0
+      //   }).insertAfter("#quizz-result-"+$(this).attr("quizz"));
+      // }
+  });
+}
+
+function update_checkbox_answer(elt) {
+  var res, qa=$('#qa-'+elt.attr("quizz")+'-'+elt.attr("question")+"-"+elt.attr("choice"));
+  var qa_score=parseInt(qa.attr("score"));
+  qa.attr("answer", (elt.prop("checked") ? "yes" : "no" ));
+  if(qa.attr("answer") === "no") {
+    qa.attr("score",0);
+  } else {
+    qa.attr("score",qa.attr("expected") == "yes" ? 1 : -1 );
+  }
+  var qs=$('#qs-'+elt.attr("quizz")+'-'+elt.attr("question"));
+  qs.attr("score",parseInt(qs.attr("score"))+parseInt(qa.attr("score"))-qa_score);
+}
+
+function update_minir_input_answer(id) {
+  var elt=$("#"+id),score;
+  var answer=elt.val(),qs=$('#qs-'+elt.attr("quizz")+'-'+elt.attr("question"));
+  var id=elt.attr("quizz")+"-"+elt.attr("question");
+  qs.attr("answer",answer);
+  if(answer == "") {
+    score="0";
+  } else {
+    console.log("ls: "+Opal.eval('QuizzScoreMiniR.ls'));
+    var code='QuizzScoreMiniR["'+id+'"].eval("'+answer+'")';
+    console.log("code: "+code);
+    score=Opal.eval(code);
+  }
+  console.log("minir score:"+score);
+  qs.attr("score",score);
+}
+
+function update_minir_textarea_answer(id) {
+  var elt=$("#"+id),score;
+  var answer=elt.val().split("\n").slice(-1)[0];
+  var qs=$('#qs-'+elt.attr("quizz")+'-'+elt.attr("question"));
+  var id=elt.attr("quizz")+"-"+elt.attr("question");
+  qs.attr("answer",answer);
+
+  console.log("ls: "+Opal.eval('QuizzScoreMiniR.ls'));
+  var code='QuizzScoreMiniR["'+id+'"].eval("'+answer+'")';
+  console.log("code: "+code);
+  score=Opal.eval(code);
+
+  console.log("minir score:"+score);
+  qs.attr("score",score);
+}
+
+function update_quizz_score_old(quizz) {
+  var result="", global=0, count=0, qs, score;
+  $( ".quizz_score[quizz='"+quizz+"']").each(function() {
+    count += 1;
+    switch($(this).attr("mode")) {
+    case "checkbox":
+    console.log("qs:"+'#qs-'+$(this).attr("quizz")+'-'+$(this).attr("question") );
+      qs=$('#qs-'+$(this).attr("quizz")+'-'+$(this).attr("question"));
+      score=qs.attr("score");
+      result += $(this).attr("question") + ": "+score+ ";";
+      global += Math.max(0,score);
+    case "minir":
+        // QuizzScoreMiniR[""]
+        // qs=$('#qs-'+$(this).attr("quizz")+'-'+$(this).attr("question"));
+        // score=qs.attr("score");
+        // result += $(this).attr("question") + ": "+score+ ";";
+        // global += Math.max(0,score);
+      break;
+    }
+  })
+  $("#quizz-result-"+quizz).text("Note="+global.toFixed(2)+"/"+count+" ("+result+")");
+}
+
+function update_quizz_score(quizz) {
+  console.log("update_quizz_score: "+quizz);
+  var result="", global=0, count=0, qs, score,mode,smax;
+  var questions=jQuery.unique($('.quizz[quizz="'+quizz+'"]').map(function() {return $(this).attr("question")})).toArray();
+  console.log("question_s: "+questions);
+  questions.forEach(function(question) {
+    count += 1;
+    mode=$('.quizz[quizz="'+quizz+'"][question="'+question+'"]').attr('mode');
+    switch(mode) {
+    case "checkbox":
+      qs=$('#qs-'+quizz+'-'+question);
+      score=qs.attr("score");smax=qs.attr("max");
+      result += question + ": " + score + (smax=="1" ?  "" : ("/" + smax)) + ";";
+      global += Math.max(0,score/smax);
+      break;
+    case "minir-input":
+        qs=$('#qs-'+quizz+'-'+question);
+        score=qs.attr("score");
+        result += question + ": "+score+ ";";
+        var id=quizz+'-'+question;
+        //console.log(Opal.eval('QuizzScoreMiniR.ls'));
+        //console.log('id='+id);
+        var nb=Opal.eval('QuizzScoreMiniR["'+id+'"].nb_rules');
+        //console.log("nb="+nb);
+        global += Math.max(0,eval(score)/nb);
+      break;
+    case "minir-textarea":
+        qs=$('#qs-'+quizz+'-'+question);
+        score=qs.attr("score");
+        result += question + ": "+score+ ";";
+        var id=quizz+'-'+question;
+        //console.log(Opal.eval('QuizzScoreMiniR.ls'));
+        //console.log('id='+id);
+        var nb=Opal.eval('QuizzScoreMiniR["'+id+'"].nb_rules');
+        //console.log("nb="+nb);
+        global += Math.max(0,eval(score)/nb);
+      break;
+    }
+  });
+  $("#quizz-result-"+quizz).text("Note="+global.toFixed(2)+"/"+count+" ("+result+")");
+}
+
+// function bonjour_quizz_miniR() {
+//     var e=$("#quizz-result-"+$(this).attr("quizz"));
+//     $('.quizz.minir').each(function() {
+//        $('<input>').attr({
+//         type: 'hidden',
+//         class: 'quizz answer',
+//         mode: 'minir',
+//         quizz: $(this).attr("quizz"),
+//         question: $(this).attr("question"),
+//         id: 'qa-'+$(this).attr("quizz")+'-'+$(this).attr("question"),
+//         answer: '',
+//         score: 0
+//        }).insertAfter(e)
+//  });
+// }
+
+bonjour_quizz_checkbox();
+//bonjour_quizz_miniR();
+Cqls={Quizz: {}};
+Cqls.code="";
+
+function setCqlsCode(code) {
+	Cqls.code=code;
+}
+function getExoData(exo) {
+  var code;
+  switch (exo) {
+  case "alfredN20":
+    code="yA=c(0.144679564279082, 0.308391019822987, 0.165071844320451, 0.0810088511346089,-0.150489835962709, -0.0216344580330839, -0.255587942544298,0.0987153563164697, 0.592751352277294, -0.229624997435348, -0.216767323099697,-0.0970720818772463, 0.170505292061653, -0.0573236584450232,0.653375135601917, 0.178024688692504, 0.292787345192972, -0.165149721585414,-0.300802214354508, 0.32129751773001)";
+    break;
+  case "alfred":
+    code="yA=c(0.144679564279082, 0.308391019822987, 0.165071844320451, 0.0810088511346089,-0.150489835962709, -0.0216344580330839, -0.255587942544298,0.0987153563164697, 0.592751352277294, -0.229624997435348, -0.216767323099697,-0.0970720818772463, 0.170505292061653, -0.0573236584450232,0.653375135601917, 0.178024688692504, 0.292787345192972, -0.165149721585414,-0.300802214354508, 0.32129751773001, 0.0805886239932639, 0.143171545682753,-0.00298066490980145, -0.255637645785468, 0.0928007482527018,-0.153861013155069, -0.091326084306205, 0.296172089667303, 0.00686887343119331,-0.596877687513186, -0.0584200940407693, 0.0720811015026169,0.0175687232410191, 0.153389781110694, -0.44979678290783, 0.213281328016978,-0.0386525306111942, -0.081768580854734, -0.165385713923966,-0.454948636494848, 0.262084533688519, -0.215753300244686, 0.173626814513985,-0.20016068068908, -0.255138748345693, 0.125329351017599, -0.326049545254994,0.207517749735126, 0.0704389198591811, -0.303221493327114)";
+    break;
+  case "dictee":
+    code="yD=c(9, 10, 0, 1, 0, 5, 6, 10, 8, 1, 13, 9, 8, 3, 0, 0, 1, 0, 0, 0, 6, 9, 6, 8, 3, 5, 11, 5, 0, 0)";
+    break;
+  case "dieteticien":
+    code="yD=c(-1, 6, 4, 7, 7, 3, 2, 6, 3, 5, 5, 7, 4, 4, 2, 4, 6, 6, 5, 3, 5, 5, 2, 7, 4, 5, 4, 3, 6, 7, 4, 6, 4, 5, 2, 6, 4, 6, 5, 5, 6, 4, 3, 2, 3, 6, 5, 7, 2, 4);AV=c(64,67,68,76,72,69,62,65,64,73);AP=c(65,61,64,69,65,66,60,59,61,68)";
+    break;
+
+  case "produitA":
+      code="yA=c(0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,1,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,1,0,1,0,0,1,0,0,0,0,1,0,1,0,1,0,0,0,1,1,0,1,0,1,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,1,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,1,1,0,0,1,1,1,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,0,1,0,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,1,0,0,1,1,0,1,0,0,0,0,1,0,0,0,0,1,1,0,0,0,1,0,0,0,1,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,1,0,0,0,1,1,0,1,1,0,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,1,1,1,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,1,0,0,0,0);"
+      break;
+
+    case "produitB":
+      code="yB=c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,1,0,0,0,0,0,0,2,0,0,0,0,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,2,0,0,2,0,0,0,2,0,2,2,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,3,0,0,0,0,0,3,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,3,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,2,0,0,0,0,0,0,0,0,0,0,3,0,1,0,2,0,0,0,0,2,0,1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,1,0,0,0,0,3,0,0,1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,2,0,0,0,0,2,0,0,0,0,0,0,0,1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,1,0,1,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,3,0,0,0,0,0,1,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);"
+      break;
+
+    case "primeProdA":
+      code="yQ=c(9,4,3,7,6,8,2,7,3,9,9,4,8,9,4,8,10,4,9,5,2,7,2,3,2,4,9,6,10,8,5,5,5,5,10,7,4,4,4,4,6,8,2,8,9,5,7,8,6,4,8,6,6,5,3,7,4,5,2,4,6,8,3,9,5,5,9,5,10,5,4,4,4,2,6,8,2,5,10,8,6,9,8,5,7,10,6,8,7,7,7,3,7,8,6,9,6,6,8,7,8,7,8,10,6,8,5,9,4,10,7,9,4,7,4,7,10,4,2,5,7,3,5,8,7,9,6,3,6,2,10,9,10,10,10,4,6,7,9,10,3,10,3,2,9,5,6,9,8,9,7,10,6,5,4,9,5,6,4,2,6,7,5,6,10,8,6,5,9,7,2,2,2,8,9,6,3,8,7,6,3,8,10,2,2,8,9,10,9,8,2,7,7,10,3,3,2,9,7,6);"
+      break;
+
+    case "competence":
+      code="yC=c(0.3452062,0.3618771,0.2832608,-0.04273267,0.07897429,-0.5758346,-0.7199432,0.181882,0.04438047,-0.01951828,-0.3482005,0.2606782,-0.211132,-0.288865,-0.1782186,0.08062292,0.5697587,0.2163659,-0.05521338,-0.4348432,-0.08501561,0.05719431,-0.1577344,0.08525453,0.3121257,0.1269254,-0.178035,-0.1786163,-0.4814323,-0.07185419);"
+      break;
+
+    case "pilote1N20":
+      code="y1=c(47.89674,50.04087,54.5324,54.36718,48.80645,51.44077,49.72669,44.81843,50.3791,48.32037,53.5515,50.38611,50.37899,49.44585,50.47262,50.66881,50.44251,50.10745,47.43873,51.17308);"
+      break;
+
+    case "pilote1":
+      code="y1=c(47.89674,50.04087,54.5324,54.36718,48.80645,51.44077,49.72669,44.81843,50.3791,48.32037,53.5515,50.38611,50.37899,49.44585,50.47262,50.66881,50.44251,50.10745,47.43873,51.17308,51.1604,50.06874,48.85899,52.08231,49.59702,52.87073,50.63278,50.04054,53.13216,50.13489,53.72466,50.48863,48.83423,51.93978,49.19886,52.67034,49.2136,48.35678,49.43116,48.95199);"
+      break;
+
+    case "pilote2":
+      code="y2=c(51.89371,51.35814,52.16305,51.83228,52.97653,51.43513,50.8937,51.50756,51.54468,52.22917,51.21122,52.96252,51.61797,52.40225,50.21097,51.73468,52.1436,52.57952,51.60721,52.15696,51.51422,53.23509,53.55053,52.62854,51.3968,52.51582,51.7682,53.42508,52.59148,51.55015,53.02435,52.20928,52.13902,52.04843,53.60312,50.48255,51.36794,52.73886,50.4655,51.92149,50.82357,53.11825,52.30076,49.99984,52.47019,51.9189,52.68014,51.25526,53.55974,52.44708);"
+      break;
+
+    case "bernardN20":
+      code="yB=c(0.02483016,0.09379133,0.145188,-0.04969999,-0.1532143,0.1208757,-0.112933,-0.3452917,-0.007106278,0.1220161,-0.1919765,-0.3684244,0.1882093,-0.1190619,-0.2020528,0.2495189,-0.3013964,0.1123033,0.2164801,0.2393351);"
+      break;
+
+    case "bernard":
+      code="yB=c(0.02483016,0.09379133,0.145188,-0.04969999,-0.1532143,0.1208757,-0.112933,-0.3452917,-0.007106278,0.1220161,-0.1919765,-0.3684244,0.1882093,-0.1190619,-0.2020528,0.2495189,-0.3013964,0.1123033,0.2164801,0.2393351,0.1428402,-0.323352,0.04930722,-0.02417904,0.1530558,0.1237836,-0.006933568,-0.06470596,0.1438609,0.02115967,-0.1333253,0.3044679,0.04528947,0.06454683,0.03938363,0.4622106,-0.1950227,-0.009857142,0.08429325,-0.04374064,-0.278324,0.3768047,-0.1410857,-0.01711132,0.04389444,0.07555481,0.2506217,0.3180829,0.005132367,0.0152481,0.2962752,-0.1621414,0.06079287,0.09097692,0.1198565,0.310566,-0.1467855,0.06196827,-0.1821278,-0.1878903);"
+      break;
+
+    case "conduite":
+      code="yH=c(24,28,29,29,34,36,40,41,60);yF=c(21,31,34,37,38,39,42,43,44,50,51);"
+      break;
+
+    case "adjverbe":
+      code="sc=c(1.04,0.93,0.75,0.33,1.62,0.76,0.97,1.21,0.8,1.18);litt=c(1.32,2.3,1.98,0.59,1.02,0.88,0.92,1.39,1.95,1.25);"
+      break;
+
+    case "machine":
+      code="yM1=c(1844,1828,1837,1833,1831,1818,1836,1837,1840,1820,1845,1815,1831,1839,1824,1839,1836,1840,1822,1824,1820,1839,1849,1846,1817,1822,1832,1846,1832,1834,1847,1828,1809,1833,1830,1824,1834,1842,1837,1818,1812,1825,1839,1840,1817,1827,1827,1842,1846,1839,1822,1816,1834,1810,1826,1836,1834,1839,1832,1827,1847,1842,1844,1831,1840,1823,1828,1822,1804,1821,1823,1846,1836,1823,1831,1810,1838,1844,1830,1830,1829,1807,1797,1814,1807,1844,1834,1827,1841,1830,1830,1834,1840,1832,1844,1815,1825,1821,1840,1821);yM2=c(2025,2045,2017,2024,2016,2025,2023,2020,2008,2025,2017,2014,2024,2028,2009,2023,2024,2034,2023,2024,2029,2032,2013,2017,2019,2022,2023,2005,2031,2012,2014,2032,2018,2022,2035,2024,2034,2012,2017,2015,2020,2015,2018,2020,2033,2025,2026,2026,2023,2014);"
+      break;
+
+    case "menu":
+      code="yAV=c(8,7,6,7,9,7,6,4,7,5,8,7,6,6,6,6,7,5,7,6,7,7,8,5,4,7,6,5,7,6,8,6,7,7,7,8,5,8,5,5);yAP1=c(9,9,9,6,7,7,9,6,8,6,10,11,6,9,8,8,6,10,7,10,6,8,7,8,9,6,9,9,6,7);yAP2=c(8,10,8,8,9,8,9,5,10,6,10,7,7,6,6,7,11,7,12,6,7,7,10,6,7,7,7,5,8,8,10,6,9,8,8,9,5,10,7,8);"
+      break;
+
+    case "notes":
+      code="yContC=c(16,16,12,16,11,10,15,19,12,14,17,16,12,10,17,16,12,14,11,16,18,20,13,14,9,10,18,7,6,10,17,18,11,17,14,16,12,12,13,13,12,16,11,15,19,14,16,13,17,18);yExamC=c(14,17,15,13,13,13,12,16,13,15,12,14,13,15,17,15,17,13,13,12,15,14,12,13,9,10,16,11,16,13,13,14,13,15,11,16,14,10,8,15,10,12,12,12,15,10,15,9,13,11);yExamD=c(13,13,11,10,13,11,12,11,9,13,10,11,12,14,11,11,10,17,10,7,17,11,9,10,14,11,9,11,10,10,12,11,12,12,10,9,12,12,10,11,8,5,14,9,12,11,11,9,11,11);"
+      break;
+
+    case "chAffN20":
+      code="yP1=c(98.83,96.56,86.08,84.08,93.68,106.74,93.42,104.04,99.24,87.47,117.65,115.26,109.33,92.71,105.48,93.09,106.59,82.92,96.31,87.99);yP2=c(63.89,72.36,88.48,74.28,71.63,82.45,67.42,76.01,74.33,77.81,71.67,72.38,80.33,77.67,67.29,73.98,65.97,76.65,74.02,88.96);"
+      break;
+
+    case "chAff":
+      code="yP1=c(98.83,96.56,86.08,84.08,93.68,106.74,93.42,104.04,99.24,87.47,117.65,115.26,109.33,92.71,105.48,93.09,106.59,82.92,96.31,87.99,99.77,111.22,106.49,100.8,109.97,96.91,83.39,101.57,100.1,110.07,94.03,114.85,105.3,106.5,88.68,100.94,98.4,101.98,112.11,79.68);yP2=c(63.89,72.36,88.48,74.28,71.63,82.45,67.42,76.01,74.33,77.81,71.67,72.38,80.33,77.67,67.29,73.98,65.97,76.65,74.02,88.96,71.19,81.9,75.03,80.35,86.16,73.15,73.94,63.95,79.94,59.04,67.5,77.15,74.01,77.45,78.13,74.46,96.59,80,78.19,72.97);"
+      break;
+
+    case "chAff0405N20":
+      code="y04=c(84.03,95.47,88.89,93.09,87.24,90,86.85,86.61,73.24,73.88,97.2,96.47,85.61,64.47,67.98,78.2,86.76,81.73,74.35,83.55);y05=c(98.83,96.56,86.08,84.08,93.68,106.74,93.42,104.04,99.24,87.47,117.65,115.26,109.33,92.71,105.48,93.09,106.59,82.92,96.31,87.99);"
+      break;
+
+    case "chAff0405":
+      code="y04=c(84.03,95.47,88.89,93.09,87.24,90,86.85,86.61,73.24,73.88,97.2,96.47,85.61,64.47,67.98,78.2,86.76,81.73,74.35,83.55,85.15,76.67,87.75,84.52,104.08,72.72,101.8,87.52,86.61,89.96,76.96,95.11,70.88,89.79,87.29,83.36,73.73,79.94,91.97,100.07);y05=c(98.83,96.56,86.08,84.08,93.68,106.74,93.42,104.04,99.24,87.47,117.65,115.26,109.33,92.71,105.48,93.09,106.59,82.92,96.31,87.99,99.77,111.22,106.49,100.8,109.97,96.91,83.39,101.57,100.1,110.07,94.03,114.85,105.3,106.5,88.68,100.94,98.4,101.98,112.11,79.68);"
+      break;
+
+    case "tailleEtu":
+      code="y1=c(165,179,171,178,171,168,166,171,182,178,177,165,174,164,175,178,167,168,185,166,162,180,167,174,159,159,184,154,172,157)";
+      break;
+  }
+  Cqls.code=code;
+  return code;
+}
+
+function irb(instrR) {
+  return eval(Opal.compile("("+Cqls.code+";"+instrR+").to_Routput",{irb: true}));
+}
+
+function preprocessCode(instrR) {
+  return instrR.replace(/\<\-/g,"=").replace(/([^\d])(\.\d+)/g,"$1"+"0"+"$2").replace(/\^/g,"**");
+}
+
+function evalMiniR(id) {
+  var instrR=$("#code-"+id).val()+';'+$("#"+id).val();
+  instrR=preprocessCode(instrR);
+  var res=irb(instrR);//Opal.eval("("+instrR+")");//eval(Opal.compile(instrR,{irb: true}));
+  $("#echo-"+id).html(res);//print(res));
+}
+
+function evalMiniRCurrentLine(id) {
+  console.log("evalMiniRCurrentLine: "+id);
+  var instrsR=$("#"+id).val();
+  var debut=instrsR.substr(0,$("#"+id).prop("selectionStart"));
+  var line=(debut.split("\n")).length;
+  //alert("line="+line);
+  var instrR=instrsR.split("\n")[line-1];
+
+  //preliminary code to eval
+  irb(preprocessCode($("#code-"+id).val()));
+  //textarea current line evaluation
+  instrR=preprocessCode(instrR);
+  var res=irb(instrR);//Opal.eval("("+instrR+")");//eval(Opal.compile(instrR,{irb: true}));
+  $("#echo-"+id).html(res);//print(res));
+}
+
+$(".quizz.minir.textarea").keydown(function(e) {
+  if((e.metaKey || e.ctrlKey) && ( String.fromCharCode(e.which).toLowerCase() === 'r')) {
+    evalMiniR($(this).attr("id"));
+    //validAnswer
+    update_minir_textarea_answer($(this).attr("id"));
+    update_quizz_score($(this).attr("quizz"));
+
+  }
+  if((e.metaKey || e.ctrlKey) && ( String.fromCharCode(e.which).toLowerCase() === 'l')) {
+    evalMiniRCurrentLine($(this).attr("id"));
+  }
+  // if( (e.metaKey || e.ctrlKey) && ( String.fromCharCode(e.which).toLowerCase() === 'v') ) {
+  //   //validAnswer
+  //   update_minir_textarea_answer($(this).attr("id"));
+  //   update_quizz_score($(this).attr("quizz"));
+  // }
+
+});
+
+$(".quizz.minir.input").keydown(function(e) {
+  if(e.which == 13) {
+    evalMiniR($(this).attr("id"));
+    //validAnswer
+    update_minir_input_answer($(this).attr("id"));
+    update_quizz_score($(this).attr("quizz"));
+  }
+
+});
+$("#ok_varAn20Techni_answer").click(function() {
+$(".ok_varAn20Techni").toggle()
+});
+$(".ok_varAn20Techni").hide();
+$("#ok_varAn50Techni_answer").click(function() {
+$(".ok_varAn50Techni").toggle()
+});
+$(".ok_varAn50Techni").hide();
+$("#ok_varBn20Techni_answer").click(function() {
+$(".ok_varBn20Techni").toggle()
+});
+$(".ok_varBn20Techni").hide();
+$("#ok_rvarABnA50nB20Techni_answer").click(function() {
+$(".ok_rvarABnA50nB20Techni").toggle()
+});
+$(".ok_rvarABnA50nB20Techni").hide();
+$("#ok_rvarABnA20nb20Techni_answer").click(function() {
+$(".ok_rvarABnA20nb20Techni").toggle()
+});
+$(".ok_rvarABnA20nb20Techni").hide();
+$("#ok_dvarABnA50nB60Techni_answer").click(function() {
+$(".ok_dvarABnA50nB60Techni").toggle()
+});
+$(".ok_dvarABnA50nB60Techni").hide();
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+</body>
+</html>

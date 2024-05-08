@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Dyndoc Session</title>
+
+<script src="/rsrc/tools/h/jquery-1.11.3/jquery.min.js"></script>
+
+
+
+<link href="/rsrc/tools/uv/solarized.css" media="screen,projection,print" rel="Stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<link rel="stylesheet" href="/rsrc/tools/css/ascidoctor.css">
+<link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<style type="text/css" media="screen">
+.trigger_doc {
+  cursor: pointer;
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="/rsrc/tools/Semantic-UI-CSS/semantic.min.css"><script src="/rsrc/tools/Semantic-UI-CSS/semantic.min.js"></script>
+
+
+
+
+
+</head>
+<body><div class="ui  container">
+
+<div id="content">
+
+
+<h1>Résumé de Cours Statistique Inférentielle</h1>
+<div class="trigger_doc" id="trigger_doc_ab0e1e8a-7dee-419d-8b43-06ccaf4409ed1"><h2><span id="tri_expand_ab0e1e8a-7dee-419d-8b43-06ccaf4409ed1" state="off">&#x25BA;</span>Probabilité (A.M.P. vs A.E.P.)</h2></div><div class="target_doc" id="target_doc_ab0e1e8a-7dee-419d-8b43-06ccaf4409ed1"><ul><li><strong>A.M.P.</strong> permet aux mathématiciens/probabilistes de caractériser la loi de probabilité d'une variable aléatoire $Y$ obtenue par le calcul et fournie sous la forme :
+\[
+Y \leadsto \mathcal{L}_0(\cdots)
+\]
+où $\mathcal{L}_0$ est le nom d'une loi à préciser (comme un "nom de famille") et "$\cdots$" représente la liste des paramètres (comme des "prénoms") permettant de caractériser complètement la loi de probabilité.
+<br/>Les exemples les plus simples vus en Cours et TD sont : $Y\leadsto \mathcal{U}(\{1,\cdots,6\})$ pour l'exemple d'un lancer de dé et $Y\leadsto \mathcal{U}([0,1])$ pour le choix d'une réel au hasard dans l'intervalle $[0,1]$.</li><li>Le décodeur <strong>A.E.P.</strong> permet alors de comprendre cette formule <strong>A.M.P.</strong> en associant à une infinité de (i.e. toutes les) réalisations $(y_{[\cdot]})_{+\infty}:=(y_{[1]},\cdots,y_{[m]},\cdots)$ la répartition en un $[+\infty]$-histogramme vu comme un empilement d'une infinité de $[+\infty]$-briques (discrètes ou continues) représentant individuellement tous les réalisations $(y_{[\cdot]})_{+\infty}$. En clair,<ol><li>L'ensemble de toutes les réalisations sont miraculeusement représentées par cet $[+\infty]$-histogramme comme des $[+\infty]$-briques dont sa forme est donnée par le nom de la loi $\mathcal{L}_0(\cdots)$.</li><li>La variable clonée $Y^{cl}$, consistant en la valeur associée à un choix d'un point au hasard sous le $[+\infty]$-histogramme identifiant une unique $[+\infty]$-brique, a naturellement la même loi de probabilité que $Y$ (d'où le choix du nom de "clonage").</li></ol></li></ul></div><div class="trigger_doc" id="trigger_doc_ab0e1e8a-7dee-419d-8b43-06ccaf4409ed2"><h2><span id="tri_expand_ab0e1e8a-7dee-419d-8b43-06ccaf4409ed2" state="off">&#x25BA;</span>Estimation par Intervalle de Confiance</h2></div><div class="target_doc" id="target_doc_ab0e1e8a-7dee-419d-8b43-06ccaf4409ed2"><ol><li><strong>Construction:</strong> l'intervalle de confiance $IC_\mu(\boldsymbol{y})=[\widetilde{\mu}_{\inf}(\boldsymbol{y}),\widetilde{\mu}_{\sup}(\boldsymbol{y})]$ du <strong>jour J</strong> à $1-\alpha$ ($=95\%$ si $\alpha$ non précisé) niveau de confiance, est obtenu comme l'<strong>estimation</strong> $\widehat\mu(\boldsymbol{y_{[\cdot]}})$ à une <strong>marge d'erreur</strong> près qui se décompose comme le <strong>produit</strong> de:<ul><li><strong>quantile d'ordre $1-\frac\alpha2$ d'une loi Normale (centrée réduite)</strong>: $\delta_{lim,\frac \alpha 2}^{+}\simeq q_{1-\frac\alpha2}(\mathcal{N}(0,1))$ permettant de sélectionner la proportion $1-\alpha$ des <strong>meilleurs</strong> écarts standardisés $\left(\delta_{\widehat \mu,\mu}\left(\boldsymbol{y_{[\cdot]}}\right)\right)_{+\infty}:=\left(\frac{\widehat{\mu}(\boldsymbol{y_{[\cdot]}})-\mu}{\widehat{\sigma_{\widehat\mu}}(\boldsymbol{y_{[\cdot]}})}\right)_{+\infty}$ naturellement situés dans l'intervalle $[-\delta_{lim,\frac \alpha 2}^{+},\delta_{lim,\frac \alpha 2}^{+}]$</li><li><strong>erreur standard</strong> $\widehat{\sigma_{\widehat\mu}}(\boldsymbol{y})$:  estimation (fournie via l'instruction R $\mathtt{seMean(y)}$) de la <strong>qualité d'estimation</strong> $\sigma_{\widehat\mu}:=\overleftrightarrow{\left(\widehat{\mu}(\boldsymbol{y_{[\cdot]}})\right)}_{+\infty}$ (que l'on espère généralement raisonnablement petite et qui est égale à $\frac{\sigma}{\sqrt n}$)</li></ul></li><li><strong>Mathématiquement</strong>:  $IC_\mu(\boldsymbol{y})=[\widetilde{\mu}_{\inf}(\boldsymbol{y}),\widetilde{\mu}_{\sup}(\boldsymbol{y})]=\widehat{\mu}(\boldsymbol{y})\mp \delta_{lim,\frac \alpha 2}^{+} \times \widehat{\sigma_{\widehat\mu}}(\boldsymbol{y})$</li><li><strong>En français</strong>: <strong>Intervalle de confiance</strong> (à $1-\alpha=95\%$) est égale à <strong>Estimation</strong> plus ou moins <strong>2</strong> fois <strong>Erreur standard</strong></li><li><strong>Instruction R ($1-\alpha=95\%$)</strong>: $\quad\mathtt{mean(y)+c(-1,1)*qnorm(.975)*seMean(y)}$ (où $\mathtt{qnorm(.975)*seMean(y)}$ correspond à la <strong>marge d'erreur</strong>)</li><li><strong>Interprétation</strong>: l'intervalle de confiance  $IC_\mu(\boldsymbol{y})$, obtenu le <strong>jour J</strong>,  est l'un parmi tous les intervalles de confiance $\left(IC_\mu(\boldsymbol{y_{[\cdot]}})\right)_{+\infty}$ que l'on aurait pu construire <strong>le jour J</strong> dont on sait qu'approximativement $1-\alpha$ (en général 95%) contiendraient le vrai paramètre d'intérêt <strong>INCONNU</strong> $\mu$</li><li><strong>Graphiquement</strong>: TODO (Graphiques côte à côte des écarts standardisés et estimations avec $m=100$ intervalles de confiances)</li></ol></div><div class="trigger_doc" id="trigger_doc_ab0e1e8a-7dee-419d-8b43-06ccaf4409ed3"><h2><span id="tri_expand_ab0e1e8a-7dee-419d-8b43-06ccaf4409ed3" state="off">&#x25BA;</span>Outil d'Aide à la Décision</h2></div><div class="target_doc" id="target_doc_ab0e1e8a-7dee-419d-8b43-06ccaf4409ed3"><ol><li><strong>Affirmation d'intérêt</strong> ($\mathbf{H_1}$) (dépendant de la <strong>population</strong>) :<ul><li>directement à partir du <strong>paramètre d'intérêt</strong> : $\mu > \mu_0$</li><li>indirectement à partir du <strong>paramètre d'écart (standardisé)</strong> : $\delta_{\mu,\mu_0}>0$ avec $\delta_{\mu,\mu_0}:=\displaystyle\frac{\mu-\mu_0}{\sigma_{\widehat\mu}}$</li><li><strong>Remarques</strong> : dans l'expression de l'<strong>affirmation d'intérêt</strong>,<ul><li>la <strong>valeur de référence</strong> $\mu_0$  est extraite de la problématique traitée (<strong>exemple</strong>: pour faciliter la compréhension, choisir par la suite $\mu_0=0.15$ comme dans la <strong>problématique du produit B</strong>, l'<strong>affirmation d'intérêt</strong> exprimant la <strong>rentabilité du produit B</strong>)</li><li>la comparaison '$>$' peut être remplacée selon la problématique par '$<$' ou '$\neq$'</li><li>dans ce cours d'autres problématiques sont envisagées consistant à remplacer le <strong>paramètre d'intérêt</strong> (noté $\theta$ dans le cadre général), ici la moyenne $\mu$, par une proportion $p$, variance $\sigma^2$ (et bien d'autres types de paramètres), <strong>le paramètre d'écart</strong> (entre le <strong>paramètre d'intérêt</strong> et la <strong>valeur de référence</strong>) pouvant alors s'écrire sous une forme différente (voir polycopié de cours).</li></ul></li></ul></li><li><strong>Règle de Décision</strong> (au vu de l'<strong>échantillon</strong>): Accepter $\mathbf{H_1}$ si $\widehat{\delta_{\mu,\mu_0}}(\boldsymbol{y})>\delta_{lim,5\%}^+$
+</br>avec<ul><li>$\widehat{\delta_{\mu,\mu_0}}(\boldsymbol{y}):=\frac{\widehat{\mu}(\boldsymbol{y})-\mu_0}{\widehat{\sigma_{\widehat\mu}}(\boldsymbol{y})}$ l'<strong>estimation</strong> du <strong>paramètre d'écart</strong> s'exprimant en fonction de l'<strong>estimation (du paramètre d'intérêt)</strong> et son <strong>erreur standard</strong></li><li>$\delta_{lim,5\%}^+$ le <strong>seuil limite</strong> à DETERMINER pour finaliser la <strong>règle de décision</strong> (dans la notation, "lim" exprime la notion de seuil limite, "+" à franchir par la droite et "-" par la gauche, $\alpha=5\%$ correspond au maximum d'erreur de décision que l'on se fixe)</li></ul><strong>Commentaires</strong>:<ul><li>cette expression de la <strong>Règle de Décision</strong> : $\widehat{\delta_{\mu,\mu_0}}(\boldsymbol{y})>\delta_{lim,5\%}^+$ est naturellement l'analogue de l'<strong>affirmation d'intérêt</strong> ($\mathbf{H_1}$: $\delta_{\mu,\mu_0}>0$) exprimée cette fois à partir de l'échantillon remplaçant naturellement la population (<strong>exemple</strong>: exprimant la <strong>décision du lancement du produit B</strong>, c-à-d la <strong>rentabilité du produit B</strong>, à partir de l'<strong>échantillon</strong> )</li><li>puisqu'utilisé à partir de l'information partielle qu'est l'échantillon, le seuil limite $\delta_{lim,\alpha}^+$ joue donc le rôle d'un remplaçant du seuil limite 0 qui lui est appliqué  sur la population totale; ici dans notre exemple,  il doit donc être bien supérieur à 0 (exprimé en langage mathématique par $\delta_{lim,\alpha}^+>>0$) si le risque maximal d'erreur de décision $\alpha$ envisagé est choisi raisonnablement petit (en général, $\alpha=5\%$).</li></ul></li><li><strong>Erreurs de décision</strong>
+	</br> Comme dans la <strong>VRAIE SITUATION</strong> (relative à <strong>la population</strong>), le <strong>paramètre d'intérêt</strong> (et ainsi le <strong>paramètre d'écart</strong>) est INCONNU, on envisage tour à tour les erreurs de décision selon les différentes <strong>SITUATIONS</strong> POSSIBLES:<ul><li><strong>MAUVAISES SITUATIONS</strong> (<strong>non</strong> $\mathbf{H_1}$: $\mu\ngtr \mu_0\Leftrightarrow \delta_{\mu,\mu_0}\ngtr0 \Longleftrightarrow \mu\leq \mu_0\Leftrightarrow \delta_{\mu,\mu_0}\leq0$): <strong>erreurs de type I</strong> obtenue dès lors que l'échantillon $\boldsymbol{y}$ permet d'<strong>accepter</strong> $\mathbf{H_1}$, à savoir $\widehat{\delta_{\mu,\mu_0}}(\boldsymbol{y})>\delta_{lim,5\%}^+$ (<strong>exemple</strong>: pour le <strong>produit B</strong> cela correspond à <strong>devenir pauvre</strong>)</li><li><strong>BONNES SITUATIONS</strong> ($\mathbf{H_1}$: $\mu>\mu_0\Leftrightarrow \delta_{\mu,\mu_0}>0$): <strong>erreurs de type II</strong> obtenue dès lors que l'échantillon $\boldsymbol{y}$ permet de <strong>ne pas accepter</strong> $\mathbf{H_1}$, à savoir $\widehat{\delta_{\mu,\mu_0}}(\boldsymbol{y})\ngtr\delta_{lim,5\%}^+$ (<strong>exemple</strong>: pour le <strong>produit B</strong> cela correspond à <strong>ne pas devenir riche</strong>)</li></ul></li><li><strong>Risques d'erreurs (de décision) et Pire des situations</strong>
+</br>Grâce au TCL (Théorème Central limite), on peut représenter graphiquement les risques (probabilités) des erreurs de décision et s'apercevoir que<ul><li><strong>Le risque de Type I</strong> est <strong>maximal</strong> dans la <strong>PIRE (DES MAUVAISES) SITUATION(S)</strong> ($\mathbf{H_0}$: $\mu=\mu_0\Leftrightarrow \delta_{\mu,\mu_0}=0$) puisqu'il est toujours plus grand qu'un Risque de type I dans une <strong>MAUVAISES SITUATIONS</strong>  (<strong>non</strong> $\mathbf{H_1}$: $\mu\leq \mu_0\Leftrightarrow \delta_{\mu,\mu_0}\leq0$)</li><li><strong>Le risque de Type II</strong> est d'autant <strong>plus grand</strong> que la <strong>BONNE SITUATION</strong> ($\mathbf{H_1}$: $\mu>\mu_0\Leftrightarrow \delta_{\mu,\mu_0}>0$) est proche de la <strong>PIRE DES SITUATIONS</strong> $\mathbf{H_0}$. Ainsi les <strong>Risques maximaux de type I et II</strong> ne peuvent être fixés petits car leur somme est aussi proche de 100% que désiré.</li><li>La <strong>Règle de Décision</strong> ne permet donc de ne contrôler que le <strong>Risque (d'erreurs de décision) de type I</strong> considéré comme le plus important à contrôler.</li><li><strong>Question</strong>: Pourquoi se place-t'on dans la <strong>PIRE DES SITUATIONS</strong> pour construire la <strong>Règle de Décision</strong> ? </br><strong>Réponse</strong>: car le Risque de type I est <strong>maximal</strong>.</li></ul></li><li><strong>Formulation de la Règle de Décision par la Détermination du seuil limite</strong><ul><li>La finalisation de la construction de la <strong>Règle de Décision</strong> s'obtient par la <strong>détermination du seuil limite</strong> $\delta_{lim,5\%}^+$ comme le quantile d'ordre 95% d'une loi $\mathcal{N}(0,1)$ qui représente le $[+\infty]$-histogramme de tous les écarts estimés $\left(\widehat{\delta_{\mu,\mu_0}}(\boldsymbol{y_{[.]}})\right)_{+\infty}$ dans la <strong>PIRE DES SITUATIONS</strong> $\mathbf{H_0}$.</li><li><strong>Formulation de la Règle de Décision</strong>: Accepter $\mathbf{H_1}$ si  $\widehat{\delta_{\mu,\mu_0}}(\boldsymbol{y})>\delta_{lim,5\%}^+$</li><li>En R et sur l'exemple du produit B, on a $\widehat{\delta_{\mu^B,0.15}}(\boldsymbol{y})=\texttt{(mean(yB)-0.15)/seMean(yB))}\simeq 1.24\ngtr \delta_{lim,5\%}^+=\texttt{qnorm(0.95)}\simeq 1.645$</li></ul></li><li><strong>(Re)formulation de la Règle de Décision par la p-valeur</strong><ul><li>Une fois l'échantillon $\boldsymbol{y}$ obtenu, on peut appliquer la <strong>Règle de Décision</strong> et conclure. En revanche, une reformulation de la <strong>Règle de Décision</strong> apparaît naturelle dès lors qu'on se propose de modifier le niveau du risque maximal de type I (en général fixé à $5\%$) traduit par la question suivante:
+	</br><strong>Question</strong>: Quel est le (plus petit) risque (maximal de type I) à prendre pour accepter l'<strong>affirmation d'intérêt</strong> $\mathbf{H_1}$ au vu des données (échantillon)?
+	</br><strong>Réponse</strong>: C'est la <strong>p-valeur</strong> qui s'obtient dans le cas étudié comme la proportion de tous les écarts estimés $\left(\widehat{\delta_{\mu,\mu_0}}(\boldsymbol{y_{[.]}})\right)_{+\infty}$ dans la <strong>PIRE DES SITUATIONS</strong> $\mathbf{H_0}$ à droite de (plus grand que) celui $\widehat{\delta_{\mu,\mu_0}}(\boldsymbol{y})$ observé pour la <strong>VRAIE SITUATION</strong> $\mu$ du <strong>jour J</strong></li><li><strong>Reformulation de la Règle de Décision</strong>: Accepter $\mathbf{H_1}$ si $p-valeur < 5\%$ (à savoir le risque pour accpeter l'affirmation d'intérêt est raisonnablement petit)</li><li>En R et sur l'exemple du produit B, on a $p-valeur=\texttt{1-pnorm((mean(yB)-0.15)/seMean(yB))}\simeq 10.74\%$</li></ul></li></ol></div>
+
+
+
+</div>
+
+</div>
+
+<script type="text/javascript">
+$(".trigger_doc").click(function() {
+  var target_id='#target_doc' + $( this ).attr("id").substring(11);
+  $( target_id ).toggle();
+  var expand_id='#tri_expand' + $( this ).attr("id").substring(11);
+  if( $(expand_id).attr("state") == 'off') {
+    $(expand_id).html('&#x25BC;');
+    $(expand_id).attr("state",'on');
+  } else if( $(expand_id).attr("state") == 'on') {
+    $(expand_id).html('&#x25BA;');
+    $(expand_id).attr("state",'off');
+  } else {
+    console.log("Not found");
+  }
+  
+});
+$(".target_doc").hide();
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body,{
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true}
+            ]
+        });
+    });
+</script>
+
+
+</body>
+</html>

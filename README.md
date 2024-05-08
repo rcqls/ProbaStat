@@ -1,0 +1,1 @@
+## Teaching project about inference statistic in French
